@@ -16,8 +16,8 @@ install.bat
 ## 실행 or 새로고침(docker up)
 run.bat
 
-## 실행(개발용 log 보기용)
-dev.bat
+## 개발
+npm run r
 
 ## 컨테이너 및 이미지 삭제
 uninstall.bat
