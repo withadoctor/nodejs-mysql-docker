@@ -1,0 +1,153 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "나긋해 사이트에서 사용하는 api들",
+        "version": "1.0.5",
+        "title": "나긋해 apis"
+    },
+    "host": "127.0.0.1:8005",
+    "basePath": "/api",
+    "schemes": ["http", "https"],
+    "paths": {
+        "/createtable": {
+            "post": {
+                "tags": ["car"],
+                "summary": "db에 cartable 추가",
+                "description": "db에 cartable 추가",
+                "consumes": ["application/json"],
+                "produces": ["application/json", "application/xml"],
+                "responses": {
+                    "200": {
+                        "description": "생성 성공",
+                        "schema": {
+                            "$ref": "#/definitions/Car"
+                        }
+                    },
+                    "500": {
+                        "description": "cars table 생성을 실패했습니다."
+                    }
+                }
+            }
+        },
+        "/cars/adds": {
+            "post": {
+                "tags": ["car"],
+                "summary": "자동 차 추가",
+                "description": "자동 차 추가",
+                "consumes": ["application/json"],
+                "produces": ["application/json", "application/xml"],
+                "responses": {
+                    "200": {
+                        "description": "생성 성공",
+                        "schema": {
+                            "$ref": "#/definitions/Car"
+                        }
+                    },
+                    "500": {
+                        "description": "cars 추가를 실패했습니다."
+                    }
+                }
+            }
+        },
+        "/cars/add": {
+            "post": {
+                "tags": ["car"],
+                "summary": "차 추가",
+                "description": "차 추가",
+                "consumes": ["application/json"],
+                "produces": ["application/json", "application/xml"],
+                "parameters": [{
+                    "in": "body",
+                    "name": "body",
+                    "description": "차 추가",
+                    "required": true,
+                    "schema": {
+                        "$ref": "#/definitions/Car"
+                    }
+                }],
+                "responses": {
+                    "200": {
+                        "description": "생성 성공",
+                        "schema": {
+                            "$ref": "#/definitions/Car"
+                        }
+                    },
+                    "500": {
+                        "description": "cars 추가를 실패했습니다."
+                    }
+                }
+            }
+        },
+        "/cars/list": {
+            "get": {
+                "tags": ["car"],
+                "summary": "car table 리스트 가져오기",
+                "description": "car table 리스트 가져오기",
+                "consumes": ["application/json"],
+                "produces": ["application/json"],
+                "responses": {
+                    "200": {
+                        "description": "가져오기 성공",
+                        "schema": {
+                            "$ref": "#/definitions/Car"
+                        }
+                    },
+                    "500": {
+                        "description": "Car을 가져오는데 실패했습니다."
+                    }
+                }
+            }
+        },
+        "/moe/list": {
+            "get": {
+                "tags": ["MOE_ITEM_T"],
+                "summary": "moe table 리스트 가져오기",
+                "description": "moe table 리스트 가져오기",
+                "consumes": ["application/json"],
+                "produces": ["application/json"],
+                "responses": {
+                    "200": {
+                        "description": "가져오기 성공",
+                        "schema": {
+                            "$ref": "#/definitions/MOE_ITEM_T"
+                        }
+                    },
+                    "500": {
+                        "description": "MOE_ITEM_T을 가져오는데 실패했습니다."
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "Car": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "price": {
+                    "type": "integer"
+                }
+            }
+        },
+        "MOE_ITEM_T": {
+            "type": "object",
+            "properties": {
+                "TEM_NAME": {
+                    "type": "string"
+                },
+                "ITEM_DESC": {
+                    "type": "string"
+                },
+                "ITEM_ONHAND": {
+                    "type": "integer"
+                }
+            }
+        }
+    }
+}

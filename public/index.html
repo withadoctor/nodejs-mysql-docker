@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <title>nodejs-mysql-docker</title>
+  <style>
+    body,
+    div,
+    fieldset,
+    form,
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    html,
+    img,
+    p,
+    pre {
+      margin: 0;
+      padding: 0;
+    }
+
+    .wiki-content .header,
+    .wiki-content .footer,
+    .wiki-content .cell {
+      margin: 8px 0;
+      box-sizing: border-box;
+      word-wrap: break-word;
+      -moz-border-radius: 5px;
+      -webkit-border-radius: 5px;
+      border-radius: 5px;
+    }
+
+    .wiki-content .columnLayout {
+      display: table;
+      table-layout: fixed;
+      width: 100%;
+      *clear: both;
+    }
+
+    .contentLayout2 .columnLayout {
+      margin-bottom: 8px;
+    }
+
+    .wiki-content .cell {
+      display: table-cell;
+      padding: 0 10px;
+    }
+    input {
+      width: 200px;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="main-content" class="wiki-content">
+
+    <div class="contentLayout2">
+      <div class="columnLayout three-equal" data-layout="three-equal">
+        <div class="cell normal" data-type="normal">
+          <div class="innerCell">
+            <p>테이블 생성</p>
+            <button class="createtable">createtable</button>
+            <div class="createtable-result"></div>
+          </div>
+        </div>
+        <div class="cell normal" data-type="normal">
+          <div class="innerCell">
+            <p>자동 추가</p>
+            <button class="carsadds">cars/adds</button>
+            <div class="carsadds-result"></div>
+          </div>
+        </div>
+        <div class="cell normal" data-type="normal">
+          <div class="innerCell">
+            <p>데이터 추가</p>
+            <form action="/insert" method="post">
+              <input
+                type="text"
+                name="insert_name"
+                id="insert_name"
+                placeholder="차 이름을 입력하세요"
+              />
+              <br>
+              <input
+                type="text"
+                name="insert_price"
+                id="insert_price"
+                placeholder="차 가격을 입력하세요(숫자만)"
+              />
+            </form>
+            <button class="carsadd">cars/add</button>
+            <div class="carsadd-result"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="contentLayout2">
+      <div class="columnLayout three-equal" data-layout="three-equal">
+        <div class="cell normal" data-type="normal">
+          <div class="innerCell">
+            <p>차 리스트</p>
+            <button class="carlist">moe/list refrash</button>
+            <div class="carlist-result"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.querySelector(".carlist").addEventListener("click", function () {
+      getListAjax();
+    });
+    function getListAjax() {
+      var xhr = new XMLHttpRequest();
+      xhr.open("get", "http://127.0.0.1:8005/api/cars/list");
+      xhr.setRequestHeader("Content-Type", "application/json");
+      // 제대로올경우
+      xhr.addEventListener("load", function () {
+        var result = JSON.parse(xhr.responseText);
+        responseStr = '';
+        result.forEach(data => {
+          responseStr += 'id: ' + data.id + ', name: ' + data.name + ', price: ' + data.price + '<br>';
+        });
+        document.querySelector(".carlist-result").innerHTML = responseStr
+      });
+      xhr.send();
+    }
+
+    getListAjax();
+  </script>
+
+  <script>
+    document.querySelector(".createtable").addEventListener("click", function () {
+      postCreateTableAjax();
+    });
+    function postCreateTableAjax() {
+      var xhr = new XMLHttpRequest();
+      xhr.open("post", "http://127.0.0.1:8005/api/createtable");
+      xhr.setRequestHeader("Content-Type", "application/json");
+      // 제대로올경우
+      xhr.addEventListener("load", function () {
+        var result = JSON.parse(xhr.responseText);
+        console.log(result)
+        document.querySelector(".createtable-result").innerHTML = result.response
+      });
+      xhr.send();
+    }
+  </script>
+
+  <script>
+    document.querySelector(".carsadds").addEventListener("click", function () {
+      postAutoAddAjax();
+    });
+    function postAutoAddAjax() {
+      var xhr = new XMLHttpRequest();
+      xhr.open("post", "http://127.0.0.1:8005/api/cars/adds");
+      xhr.setRequestHeader("Content-Type", "application/json");
+      // 제대로올경우
+      xhr.addEventListener("load", function () {
+        var result = JSON.parse(xhr.responseText);
+        responseStr = '';
+        result.data.forEach(data => {
+          responseStr += 'name: ' + data.name + ', price: ' + data.price + '<br>';
+        });
+        document.querySelector(".carsadds-result").innerHTML = result.response
+        getListAjax();
+      });
+      xhr.send();
+    }
+  </script>
+
+  <script>
+    document.querySelector(".carsadd").addEventListener("click", function () {
+      postCarsAddAjax();
+    });
+    function postCarsAddAjax() {
+      var inputname = document.querySelector("#insert_name").value;
+      var inputprice = document.querySelector("#insert_price").value;
+      var data = { name: inputname, price: inputprice };
+      data = JSON.stringify(data);
+      var xhr = new XMLHttpRequest();
+      xhr.open("post", "http://127.0.0.1:8005/api/cars/add");
+      xhr.setRequestHeader("Content-Type", "application/json");
+      // 제대로올경우
+      xhr.addEventListener("load", function () {
+        var result = JSON.parse(xhr.responseText);
+        console.log(result)
+        document.querySelector(".carsadd-result").innerHTML = result.response
+        getListAjax();
+      });
+      xhr.send(data);
+    }
+  </script>
+</body>
+
+</html>

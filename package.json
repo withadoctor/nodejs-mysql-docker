@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon .",
+    "r": "nodemon .",
     "start": "node index.js"
   },
   "author": "",
@@ -15,6 +15,7 @@
     "express": "^4.17.1",
     "knex": "^0.21.12",
     "mysql2": "^2.2.5",
-    "nodemon": "^2.0.6"
+    "nodemon": "^2.0.6",
+    "swagger-ui-express": "^4.1.5"
   }
 }
