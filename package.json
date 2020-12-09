@@ -1,5 +1,5 @@
 {
-  "name": "mysql-db-example",
+  "name": "nodejs-mysql-docker",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
